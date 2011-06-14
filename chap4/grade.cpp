@@ -1,28 +1,10 @@
-#include <iomanip>
-#include <ios>
-#include <iostream>
-#include <string>
-#include <vector>
 #include <stdexcept>
-#include <algorithm>
+#include <vector>
+#include "grade.h"
+#include "median.h"
+#include "Student_info.h"
 
-using namespace std;
-
-// compute the median of a vector<double>
-// note that calling this function copies the entire argument vector
-double median(vector<double> vec)
-{
-	typedef vector<double>::size_type vec_sz;
-
-	vec_sz size = vec.size();
-	if (size == 0) {
-		throw domain_error("median of an empty vector");
-	}
-	sort(vec.begin(), vec.end());
-	vec_sz mid = size / 2;
-
-	return size % 2 == 0 ? (vec[mid] + vec[mid-1]) / 2 : vec[mid];
-}
+using std::domain_error; using std::vector;
 
 // compute a student's overall grade from midterm and final exam grades and homework grades
 double grade(double midterm, double final, double homework)
@@ -41,60 +23,8 @@ double grade(double midterm, double final, const vector<double>& hw)
 	return grade(midterm, final, median(hw));
 }
 
-
-
-// read homework grades from an input stream into a vector<double>
-istream& read_hw(istream& in, vector<double>& hw)
+double grade(const Student_info& s)
 {
-	if (in) {
-		// get rid of previous contents
-		hw.clear();
-
-		// read homework grades
-		double x;
-		while (in >> x) {
-			hw.push_back(x);
-		}
-
-		// clear the stream so that input will work for the next students
-		in.clear();
-	}
-	return in;
-}
-
-
-int main()
-{
-	// ask for and read the student's name
-	cout << "Please enter your first name: ";
-	string name;
-	cin >> name;
-	cout << "Hello, " << name << "!" << endl;
-
-	// ask for and read the mdterm and final grades
-	cout << "Please enter your midterm and final exam grades: ";
-	double midterm, final;
-	cin >> midterm >> final;
-
-	// ask for the homework grades
-	cout << "Enter all your homework grades, "
-			"followed by end-of-file: ";
-
-	vector<double> homework;
-
-	// read the homework grades
-	read_hw(cin, homework);
-
-	// compute and generate the final grade, if possible
-	try {
-		double final_grade = grade(midterm, final, homework);
-		streamsize prec = cout.precision();
-		cout << "Your final grade is " << setprecision(3) << final_grade << setprecision(prec) << endl;
-	} catch(domain_error) {
-		cout << endl << "You must enter your grades. "
-				"Please try again." << endl;
-		return 1;
-	}
-	return 0;
+	return grade(s.midterm, s.final, s.homework);
 }
 
