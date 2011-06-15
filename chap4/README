@@ -1,0 +1,8 @@
+How to compile and execute program
+
+To compile,
+$ g++ grade.cpp Student_info.cpp grade_main.cpp median.cpp -o grade
+
+To execute,
+$ ./grade < score.txt
+
