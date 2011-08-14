@@ -7,3 +7,5 @@ Working with strings
 Looping and counting
 ### Chapter 3
 Working with batches of data
+### Chapter 4
+Organizing programs and data
